@@ -1,0 +1,9 @@
+import { useNavigate } from 'react-router-dom'
+import { ArrowUpRight, Building2, CalendarDays, Mail, Settings as SettingsIcon, ShieldCheck, UserRound } from 'lucide-react'
+import { Button, PageHeader, Panel, StatusBadge } from '../components/ui/index.jsx'
+import { useApp } from '../context/AppContext.jsx'
+
+export default function Profile() {
+  const { settings, customers, transactions } = useApp(), navigate = useNavigate()
+  return <><PageHeader eyebrow="ACCOUNT" title="My profile" description="Your personal account and workspace details."><Button variant="secondary" onClick={() => navigate('/settings')}><SettingsIcon size={16}/> Edit settings</Button></PageHeader><div className="profile-layout"><Panel title="Personal information" subtitle="Your account details"><div className="profile-hero"><div className="avatar avatar-profile">{settings.name.split(' ').map(part => part[0]).slice(0, 2).join('').toUpperCase() || 'AM'}</div><div><h2>{settings.name}</h2><p>{settings.company}</p><StatusBadge status="Active"/></div></div><div className="detail-list profile-details"><div><Mail size={16}/><span>Email address</span><b>{settings.email}</b></div><div><Building2 size={16}/><span>Workspace</span><b>{settings.company}</b></div><div><CalendarDays size={16}/><span>Member since</span><b>January 2024</b></div><div><ShieldCheck size={16}/><span>Plan</span><b>Northstar Pro</b></div></div></Panel><Panel title="Workspace snapshot" subtitle="A quick look at your workspace"><div className="profile-metrics"><div><UserRound size={17}/><b>{customers.length}</b><span>Customers</span></div><div><span className="metric-dollar">$</span><b>{transactions.length}</b><span>Transactions</span></div><div><ShieldCheck size={17}/><b>Pro</b><span>Current plan</span></div></div><button className="link-button profile-settings-link" onClick={() => navigate('/settings')}>Manage workspace settings <ArrowUpRight size={14}/></button></Panel></div></>
+}
